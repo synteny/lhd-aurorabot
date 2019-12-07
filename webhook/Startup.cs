@@ -22,14 +22,15 @@ namespace webhook
             services.AddScoped<IUpdateService, UpdateService>();
             services.AddSingleton<IBotService, BotService>();
             services.AddSingleton<IRepository, Repository>();
-            services.AddSingleton<AuroraUpdatesService>();
+            services.AddSingleton<IAuroraUpdatesService, AuroraUpdatesService>();
 
             services.Configure<BotConfiguration>(Configuration.GetSection("BotConfiguration"));
         }
 
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, IAuroraUpdatesService a)
         {
             app.UseMvc();
+            a.ToString();
         }
     }
 }
