@@ -58,7 +58,7 @@ namespace webhook
         {
             foreach (var user in _repo.GetAllUserRecords())
             {
-                if (user.Latitude.HasValue && user.Longitude.HasValue && GetProbability(user.Latitude.Value, user.Longitude.Value) > 10)
+                if (user.Latitude.HasValue && user.Longitude.HasValue && GetProbability(user.Latitude.Value, user.Longitude.Value) > -1)
                 {
                     _botService.Client.SendTextMessageAsync(user.ChatId, $"Aurora is likely in your area with P = {GetProbability(user.Latitude.Value, user.Longitude.Value):0.##}%");
                 } 
