@@ -11,7 +11,7 @@ namespace DAL
 
         public UserRecord GetUserRecord(int chatId)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public void UpdateUserRecord(UserRecord r)
