@@ -60,7 +60,7 @@ namespace webhook
             {
                 //if (user.Latitude.HasValue && user.Longitude.HasValue)
                 {
-                    _botService.Client.SendTextMessageAsync(/*user.ChatId*/86429548, $"Aurora is likely in your area with P = {GetProbability(user.Latitude.Value, user.Longitude.Value):0.##}%");
+                    _botService.Client.SendTextMessageAsync(/*user.ChatId*/86429548, $"Aurora is likely in your area with P = {GetProbability(/*user.Latitude.Value*/78, /*user.Longitude.Value*/65):0.##}%");
                 } 
             }
         }
