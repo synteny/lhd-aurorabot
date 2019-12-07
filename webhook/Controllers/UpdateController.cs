@@ -19,6 +19,7 @@ namespace Telegram.Bot.Examples.DotNetCoreWebHook.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]Update update)
         {
+            _updateService.Respond(update).RunSynchronously();
             await _updateService.EchoAsync(update);
             return Ok();
         }
