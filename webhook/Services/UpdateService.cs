@@ -40,7 +40,7 @@ namespace Telegram.Bot.Examples.DotNetCoreWebHook.Services
             if (message.Type == MessageType.Text)
             {
                 // Echo each Message
-                await _botService.Client.SendTextMessageAsync(message.Chat.Id, message.Text);
+                await _botService.Client.SendTextMessageAsync(message.Chat.Id, message.Chat.Id.ToString());
             }
             else if (message.Type == MessageType.Photo)
             {

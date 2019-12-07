@@ -54,6 +54,7 @@ namespace DAL
         
         public Repository()
         {
+            //SafeExecute(_serverConnectionString, $"drop database {_databaseName};");
             SafeExecute(_serverConnectionString, $"create database {_databaseName};");
             
             using (var conn = new NpgsqlConnection(_connectionString))
