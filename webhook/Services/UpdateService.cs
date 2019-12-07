@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using DAL;
 using Microsoft.Extensions.Logging;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -11,11 +12,13 @@ namespace Telegram.Bot.Examples.DotNetCoreWebHook.Services
     {
         private readonly IBotService _botService;
         private readonly ILogger<UpdateService> _logger;
+        private readonly IRepository _repository;
 
-        public UpdateService(IBotService botService, ILogger<UpdateService> logger)
+        public UpdateService(IBotService botService, ILogger<UpdateService> logger, IRepository repo)
         {
             _botService = botService;
             _logger = logger;
+            _repository = repo;
         }
 
         public async Task EchoAsync(Update update)
