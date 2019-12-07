@@ -36,7 +36,7 @@ namespace webhook
 
         private static WebClient client = new WebClient();
 
-        private string cache = client.DownloadString(path);
+        private string cache = "";
         private readonly IRepository _repo;
         private readonly IBotService _botService;
 
