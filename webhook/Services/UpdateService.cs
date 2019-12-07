@@ -50,5 +50,10 @@ namespace Telegram.Bot.Examples.DotNetCoreWebHook.Services
                 await _botService.Client.SendTextMessageAsync(message.Chat.Id, "Thx for the Pics");
             }
         }
+
+        public Task Respond(Update update)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
