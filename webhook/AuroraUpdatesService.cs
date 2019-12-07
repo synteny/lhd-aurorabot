@@ -25,7 +25,7 @@ namespace webhook
             timer.Elapsed += timer_Elapsed;
             timer.Start();
 
-            _botService.Client.SendTextMessageAsync(86429548, "Updater started");
+            //_botService.Client.SendTextMessageAsync(86429548, "Updater started");
         }
 
         void timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -43,12 +43,12 @@ namespace webhook
         void worker_DoWork(object sender, DoWorkEventArgs e)
         {
             var newCache = client.DownloadString(path);
-            _botService.Client.SendTextMessageAsync(86429548, "Downloaded file");
-            if (newCache != cache)
+            //_botService.Client.SendTextMessageAsync(86429548, "Downloaded file");
+            //if (newCache != cache)
             {
                 cache = newCache;
                 
-                _botService.Client.SendTextMessageAsync(86429548, "Updates received");
+                //_botService.Client.SendTextMessageAsync(86429548, "Updates received");
 
                 SendUpdates();
             }
@@ -58,9 +58,9 @@ namespace webhook
         {
             foreach (var user in _repo.GetAllUserRecords())
             {
-                if (user.Latitude.HasValue && user.Longitude.HasValue && GetProbability(user.Latitude.Value, user.Longitude.Value) > -1)
+                if (user.Latitude.HasValue && user.Longitude.HasValue)
                 {
-                    _botService.Client.SendTextMessageAsync(user.ChatId, $"Aurora is likely in your area with P = {GetProbability(user.Latitude.Value, user.Longitude.Value):0.##}%");
+                    _botService.Client.SendTextMessageAsync(/*user.ChatId*/86429548, $"Aurora is likely in your area with P = {GetProbability(user.Latitude.Value, user.Longitude.Value):0.##}%");
                 } 
             }
         }
