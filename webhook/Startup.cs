@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using DAL;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Telegram.Bot.Examples.DotNetCoreWebHook.Services;
@@ -20,6 +21,7 @@ namespace Telegram.Bot.Examples.DotNetCoreWebHook
 
             services.AddScoped<IUpdateService, UpdateService>();
             services.AddSingleton<IBotService, BotService>();
+            services.AddTransient<IRepository, Repository>();
 
             services.Configure<BotConfiguration>(Configuration.GetSection("BotConfiguration"));
         }
