@@ -2,15 +2,19 @@ FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build-env
 WORKDIR /app
 
 # Copy csproj and restore as distinct layers
-COPY *.csproj ./
-RUN dotnet restore
+#COPY *.sln .
+#COPY webhook/*.csproj ./webhook/
+#COPY DAL/*.csproj ./DAL/
+#RUN dotnet restore
 
 # Copy everything else and build
 COPY . ./
+RUN dotnet restore
 RUN dotnet publish -c Release -o out
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
 WORKDIR /app
-COPY --from=build-env /app/out .
+COPY --from=build-env /app/webhook/out .
+COPY --from=build-env /app/DAL/out .
 CMD ASPNETCORE_URLS=http://*:$PORT dotnet webhook.dll
