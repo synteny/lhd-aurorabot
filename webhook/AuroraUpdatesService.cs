@@ -14,7 +14,7 @@ namespace webhook
     public class AuroraUpdatesService : IAuroraUpdatesService
     {
         private BackgroundWorker worker;
-        private System.Timers.Timer timer = new System.Timers.Timer(5 * 60 * 1000);
+        private System.Timers.Timer timer = new System.Timers.Timer(5 * 60 * 100);
 
         public AuroraUpdatesService(IRepository repo, IBotService botService)
         {
