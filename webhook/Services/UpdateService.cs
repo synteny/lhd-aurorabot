@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DAL;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
-namespace Telegram.Bot.Examples.DotNetCoreWebHook.Services
+namespace webhook.Services
 {
     public class UpdateService : IUpdateService
     {
@@ -70,7 +67,7 @@ namespace Telegram.Bot.Examples.DotNetCoreWebHook.Services
                 {
                     // 0 stage
                     _repository.AddUserRecord(update.Message.From.Id);
-                    await _botService.Client.SendTextMessageAsync(update.Message.Chat.Id, "Hello!\nSelect your country.");
+                    await _botService.Client.SendTextMessageAsync(update.Message.Chat.Id, "Hello!\nEnter your location.");
                 }
                 else if (userRecord != null) // && userRecord.DialogState == 1)
                 {
@@ -95,7 +92,7 @@ namespace Telegram.Bot.Examples.DotNetCoreWebHook.Services
                             _repository.UpdateUserRecord(userRecord);
 
                             await _botService.Client.SendTextMessageAsync(update.Message.Chat.Id,
-                                "All's ok!!!\nYour location is: " + latitude + "; " + longitude);
+                                "Your location is set to: " + latitude + "; " + longitude);
                         }
                         else
                         {

@@ -4,23 +4,28 @@ using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Text;
-using System.Threading;
 using System.Timers;
+using DAL;
+using webhook.Services;
 
-namespace test
+namespace webhook
 {
     //This class works with data from https://services.swpc.noaa.gov/text/aurora-nowcast-map.txt
-    public class Aurora
+    public class AuroraUpdatesService : IAuroraUpdatesService
     {
         private BackgroundWorker worker;
         private System.Timers.Timer timer = new System.Timers.Timer(5 * 60 * 1000);
 
-        public Aurora()
+        public AuroraUpdatesService(IRepository repo, IBotService botService)
         {
+            _repo = repo;
+            _botService = botService;
             worker = new BackgroundWorker();
             worker.DoWork += worker_DoWork;
             timer.Elapsed += timer_Elapsed;
             timer.Start();
+
+            _botService.Client.SendTextMessageAsync(86429548, "Updater started");
         }
 
         void timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -32,9 +37,32 @@ namespace test
         private static WebClient client = new WebClient();
 
         private string cache = client.DownloadString(path);
+        private readonly IRepository _repo;
+        private readonly IBotService _botService;
+
         void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            cache = client.DownloadString(path);
+            var newCache = client.DownloadString(path);
+            _botService.Client.SendTextMessageAsync(86429548, "Downloaded file");
+            if (newCache != cache)
+            {
+                cache = newCache;
+                
+                _botService.Client.SendTextMessageAsync(86429548, "Updates received");
+
+                SendUpdates();
+            }
+        }
+
+        private void SendUpdates()
+        {
+            foreach (var user in _repo.GetAllUserRecords())
+            {
+                if (user.Latitude.HasValue && user.Longitude.HasValue && GetProbability(user.Latitude.Value, user.Longitude.Value) > 10)
+                {
+                    _botService.Client.SendTextMessageAsync(user.ChatId, $"Aurora is likely in your area with P = {GetProbability(user.Latitude.Value, user.Longitude.Value):0.##}%");
+                } 
+            }
         }
 
         private const string path = "https://services.swpc.noaa.gov/text/aurora-nowcast-map.txt";

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Dapper;
@@ -90,6 +91,14 @@ namespace DAL
             }
         }
 
+        public IEnumerable<UserRecord> GetAllUserRecords()
+        {
+            using (var conn = new NpgsqlConnection(_connectionString))
+            {
+                return conn.Query<UserRecord>($"select * from Chats");
+            }
+        }
+        
         public void UpdateUserRecord(UserRecord r)
         {
             using (var conn = new NpgsqlConnection(_connectionString))

@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Telegram.Bot.Examples.DotNetCoreWebHook.Services;
+using webhook.Services;
 
-namespace Telegram.Bot.Examples.DotNetCoreWebHook
+namespace webhook
 {
     public class Startup
     {
@@ -22,6 +22,7 @@ namespace Telegram.Bot.Examples.DotNetCoreWebHook
             services.AddScoped<IUpdateService, UpdateService>();
             services.AddSingleton<IBotService, BotService>();
             services.AddSingleton<IRepository, Repository>();
+            services.AddSingleton<AuroraUpdatesService>();
 
             services.Configure<BotConfiguration>(Configuration.GetSection("BotConfiguration"));
         }

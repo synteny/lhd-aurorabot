@@ -1,8 +1,7 @@
-﻿using System;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace Telegram.Bot.Examples.DotNetCoreWebHook
+namespace webhook
 {
     public static class Program
     {
