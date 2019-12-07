@@ -21,7 +21,7 @@ namespace Telegram.Bot.Examples.DotNetCoreWebHook
 
             services.AddScoped<IUpdateService, UpdateService>();
             services.AddSingleton<IBotService, BotService>();
-            services.AddTransient<IRepository, Repository>();
+            services.AddSingleton<IRepository, Repository>();
 
             services.Configure<BotConfiguration>(Configuration.GetSection("BotConfiguration"));
         }
