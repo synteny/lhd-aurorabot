@@ -14,10 +14,6 @@ namespace Telegram.Bot.Examples.DotNetCoreWebHook
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .UseKestrel(options =>
-                {
-                    options.ListenLocalhost(Int32.Parse(System.Environment.GetEnvironmentVariable("PORT") ?? "5000"));
-                })
                 .Build();
     }
 }
