@@ -105,7 +105,7 @@ namespace DAL
             {
                 conn.Execute(
                     "update Chats set dialog_state = @dialog_state, latitude = @lat, longitude = @lon, area_id = @area, timezone = @tz, weather = @weather, subscribed = @subscribed where chat_id = @id", 
-                    new {id = r.ChatId, lat = r.Latitude, lon = r.Longitude, area = r.AreaId, tz = r.Timezome, weather = r.Weather, subscribed = r.Subscribed, dialog_state = r.DialogState });
+                    new {id = r.chat_id, lat = r.latitude, lon = r.longitude, area = r.area_id, tz = r.timezome, weather = r.weather, subscribed = r.subscribed, dialog_state = r.dialog_state });
             }
         }
     }

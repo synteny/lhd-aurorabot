@@ -21,7 +21,7 @@ namespace webhook
 
             services.AddScoped<IUpdateService, UpdateService>();
             services.AddSingleton<IBotService, BotService>();
-            services.AddSingleton<IRepository, HackedRepository>();
+            services.AddSingleton<IRepository, Repository>();
             services.AddSingleton<IAuroraUpdatesService, AuroraUpdatesService>();
 
             services.Configure<BotConfiguration>(Configuration.GetSection("BotConfiguration"));
@@ -30,7 +30,6 @@ namespace webhook
         public void Configure(IApplicationBuilder app, IAuroraUpdatesService a)
         {
             app.UseMvc();
-            a.ToString();
         }
     }
 }

@@ -4,13 +4,13 @@ namespace DAL
 {
     public class UserRecord
     {
-        public int ChatId { get; set; }
-        public int DialogState { get; set; }
-        public double? Latitude { get; set; }
-        public double? Longitude { get; set; }
-        public int? AreaId { get; set; }
-        public int? Timezome { get; set; }
-        public int? Weather { get; set; }
-        public bool? Subscribed { get; set; }
+        public int chat_id { get; set; }
+        public int dialog_state { get; set; }
+        public double? latitude { get; set; }
+        public double? longitude { get; set; }
+        public int? area_id { get; set; }
+        public int? timezome { get; set; }
+        public int? weather { get; set; }
+        public bool? subscribed { get; set; }
     }
 }

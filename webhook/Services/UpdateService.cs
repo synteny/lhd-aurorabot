@@ -1,12 +1,9 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using DAL;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 
 namespace webhook.Services
 {
@@ -21,39 +18,6 @@ namespace webhook.Services
             _botService = botService;
             _logger = logger;
             _repository = repo;
-        }
-
-        public async Task EchoAsync(Update update)
-        {
-            if (update.Type != UpdateType.Message)
-            {
-                return;
-            }
-
-            var message = update.Message;
-
-            _logger.LogInformation("Received Message from {0}", message.Chat.Id);
-
-            if (message.Type == MessageType.Text)
-            {
-                // Echo each Message
-                await _botService.Client.SendTextMessageAsync(message.Chat.Id, message.Chat.Id.ToString());
-            }
-            else if (message.Type == MessageType.Photo)
-            {
-                // Download Photo
-                var fileId = message.Photo.LastOrDefault()?.FileId;
-                var file = await _botService.Client.GetFileAsync(fileId);
-
-                var filename = file.FileId + "." + file.FilePath.Split('.').Last();
-
-                using (var saveImageStream = System.IO.File.Open(filename, FileMode.Create))
-                {
-                    await _botService.Client.DownloadFileAsync(file.FilePath, saveImageStream);
-                }
-
-                await _botService.Client.SendTextMessageAsync(message.Chat.Id, "Thx for the Pics");
-            }
         }
 
         public Task Respond(Update update)
@@ -86,9 +50,9 @@ namespace webhook.Services
                         if (double.TryParse(position["Latitude"].ToString(), out latitude)
                             && double.TryParse(position["Longitude"].ToString(), out longitude))
                         {
-                            userRecord.Latitude = latitude;
-                            userRecord.Longitude = longitude;
-                            userRecord.DialogState += 1;
+                            userRecord.latitude = latitude;
+                            userRecord.longitude = longitude;
+                            userRecord.dialog_state += 1;
                             _repository.UpdateUserRecord(userRecord);
 
                             await _botService.Client.SendTextMessageAsync(update.Message.Chat.Id,
