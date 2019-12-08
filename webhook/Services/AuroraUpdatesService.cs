@@ -14,7 +14,7 @@ namespace webhook
     public class AuroraUpdatesService : IAuroraUpdatesService
     {
         private BackgroundWorker worker;
-        private System.Timers.Timer timer = new System.Timers.Timer(5 * 60 * 100);
+        private System.Timers.Timer timer = new System.Timers.Timer(15 * 60 * 1000);
 
         public AuroraUpdatesService(IRepository repo, IBotService botService)
         {
@@ -24,8 +24,6 @@ namespace webhook
             worker.DoWork += worker_DoWork;
             timer.Elapsed += timer_Elapsed;
             timer.Start();
-
-            //_botService.Client.SendTextMessageAsync(86429548, "Updater started");
         }
 
         void timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -43,12 +41,9 @@ namespace webhook
         void worker_DoWork(object sender, DoWorkEventArgs e)
         {
             var newCache = client.DownloadString(path);
-            //_botService.Client.SendTextMessageAsync(86429548, "Downloaded file");
-            //if (newCache != cache)
+            if (newCache != cache)
             {
                 cache = newCache;
-                
-                //_botService.Client.SendTextMessageAsync(86429548, "Updates received");
 
                 SendUpdates();
             }
@@ -58,7 +53,7 @@ namespace webhook
         {
             foreach (var user in _repo.GetAllUserRecords())
             {
-                //if (user.Latitude.HasValue && user.Longitude.HasValue)
+                if (user.latitude.HasValue && user.longitude.HasValue)
                 {
                     _botService.Client.SendTextMessageAsync(user.chat_id, $"Aurora is likely in your area with P = {GetProbability(user.latitude.Value, user.longitude.Value):0.##}%");
                 } 
@@ -69,10 +64,6 @@ namespace webhook
 
         public int GetProbability(double latitude, double longitude)
         {
-            if (!worker.IsBusy)
-                worker.RunWorkerAsync();
-            worker.DoWork += worker_DoWork;
-
             const double k = 0.3515625;
             int row = 18 + (int)(k * longitude); //There are 18 lines of header strings in the files
             int col = (int)(k * (latitude + 90)); //Latitude varies from -90 to 90
