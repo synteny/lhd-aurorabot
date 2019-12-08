@@ -38,12 +38,11 @@ namespace webhook.Services
                     // 1 stage
                     string app_id = "Xnse0BiuhZ1dXBiF3bPB";
                     string app_code = "BKh3_vJ5dwUucVnUsfGTTA";
-                    string json = GET("https://geocoder.api.here.com/6.2/geocode.json", $"app_id={app_id}&app_code={app_code}&searchtext={update.Message.Text}");
+                    try {
+                        string json = GET("https://geocoder.api.here.com/6.2/geocode.json", $"app_id={app_id}&app_code={app_code}&searchtext={update.Message.Text}");
 
-                    JObject obj = JObject.Parse(json);
+                        JObject obj = JObject.Parse(json);
 
-                    try
-                    {
                         var position = obj["Response"]["View"][0]["Result"][0]["Location"]["NavigationPosition"][0];
 
                         double latitude, longitude;
